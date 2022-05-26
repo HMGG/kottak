@@ -1,0 +1,128 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:8515407082068702383",
+      "lastPropertyId": "9:3458152661499975822",
+      "name": "Song",
+      "properties": [
+        {
+          "id": "1:8362327105082588148",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "3:514018395350512271",
+          "name": "lyrics",
+          "type": 9
+        },
+        {
+          "id": "4:3389352200374802309",
+          "name": "author",
+          "type": 9
+        },
+        {
+          "id": "5:6383800492236208138",
+          "name": "originalTitle",
+          "type": 9
+        },
+        {
+          "id": "6:2083304092418123620",
+          "name": "translator",
+          "type": 9
+        },
+        {
+          "id": "7:7574013117331122127",
+          "name": "favorite",
+          "type": 1
+        },
+        {
+          "id": "8:6510663087539802287",
+          "name": "sheets",
+          "type": 30
+        },
+        {
+          "id": "9:3458152661499975822",
+          "name": "title",
+          "type": 9
+        }
+      ],
+      "relations": [
+        {
+          "id": "2:6860627137881601898",
+          "name": "tags",
+          "targetId": "2:6295804663967952482"
+        }
+      ]
+    },
+    {
+      "id": "2:6295804663967952482",
+      "lastPropertyId": "3:1991258975757568043",
+      "name": "Tag",
+      "properties": [
+        {
+          "id": "1:2315515640667898963",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6196850640121334747",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:1991258975757568043",
+          "name": "tagGroupId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:1615495047771659028",
+          "relationTarget": "TagGroup"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:6460878282948289241",
+      "lastPropertyId": "3:1870380263473771029",
+      "name": "TagGroup",
+      "properties": [
+        {
+          "id": "1:8922714251131724356",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2669306583694314511",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:1870380263473771029",
+          "name": "index",
+          "type": 6
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:6460878282948289241",
+  "lastIndexId": "1:1615495047771659028",
+  "lastRelationId": "2:6860627137881601898",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    3288209960121004330
+  ],
+  "retiredRelationUids": [
+    1708812543145057221
+  ],
+  "version": 1
+}

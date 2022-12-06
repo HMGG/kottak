@@ -230,13 +230,13 @@ class _SongFormState extends State<SongForm> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      widget.song.title = widget.titleControl.value.text;
-                      widget.song.lyrics = widget.lyricsControl.value.text;
-                      widget.song.author = widget.authorControl.value.text;
+                      widget.song.title = widget.titleControl.value.text.trim();
+                      widget.song.lyrics = widget.lyricsControl.value.text.trim();
+                      widget.song.author = widget.authorControl.value.text.trim();
                       widget.song.originalTitle =
-                          widget.originalTitleControl.value.text;
+                          widget.originalTitleControl.value.text.trim();
                       widget.song.translator =
-                          widget.translatorControl.value.text;
+                          widget.translatorControl.value.text.trim();
                       widget.onSave(widget.song);
                       Navigator.pop(context);
                     },

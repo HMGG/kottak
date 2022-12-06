@@ -8,6 +8,7 @@ import 'package:kottak/src/song/song_form.dart';
 import 'package:kottak/src/song/song_item.dart';
 import 'package:kottak/src/taggroups/tag_group_form.dart';
 import 'package:kottak/src/taggroups/tag_group_item.dart';
+import 'package:kottak/src/tags/tag_form.dart';
 import 'package:kottak/src/tags/tag_item.dart';
 
 final songList = GlobalKey<MyListState<Song>>();
@@ -140,7 +141,18 @@ class _MainPagerState extends State<MainPager> {
                 );
                 break;
               case 1:
-              //return new tag dialog
+                showDialog(
+                    context: context,
+                    builder: (context) => TagForm(
+                          Tag(),
+                          newForm: true,
+                        )).then((value) {
+                  if (value != null) {
+                    tagList.currentState?.addItem(value);
+                    objectbox.store.box<Tag>().put(value);
+                  }
+                });
+                break;
               case 2:
                 showDialog(
                     context: context,
@@ -149,7 +161,8 @@ class _MainPagerState extends State<MainPager> {
                           newForm: true,
                         )).then((value) {
                   if (value != null) {
-                    tagGroupList.currentState?.addItem(value..id);
+                    tagGroupList.currentState?.addItem(value);
+                    objectbox.store.box<TagGroup>().put(value);
                   }
                 });
                 break;

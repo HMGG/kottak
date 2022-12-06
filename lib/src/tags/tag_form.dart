@@ -20,11 +20,11 @@ class TagForm extends StatefulWidget {
 }
 
 class _TagFormState extends State<TagForm> {
-  late int groupId;
+  late int? groupId;
 
   @override
   void initState() {
-    groupId = widget.tag.tagGroup.target!.id;
+    groupId = widget.tag.tagGroup.target?.id;
     super.initState();
   }
 

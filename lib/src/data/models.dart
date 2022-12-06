@@ -85,7 +85,7 @@ class Tag {
 
   Tag({
     this.id = 0,
-    required this.name,
+    this.name = '',
   });
 
   static List<Tag> getAll() {

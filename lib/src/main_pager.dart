@@ -100,6 +100,14 @@ class _MainPagerState extends State<MainPager> {
               Navigator.restorablePushNamed(context, SettingsView.routeName);
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.shuffle),
+            onPressed: () {
+              Song.filtered = Song.filtered.toList();
+              Song.filtered.shuffle();
+              songList.currentState?.refreshList(Song.filtered);
+            },
+          ),
         ],
       ),
 
@@ -167,7 +175,8 @@ class _MainPagerState extends State<MainPager> {
               context,
               MaterialPageRoute(
                   builder: ((context) => const FilterAndSorting())),
-            ).then((_) => songList.currentState?.refreshList(Song.filtered));
+            ).then(
+                (_) => songList.currentState?.refreshList(Song.filtered));
           }),
     );
   }

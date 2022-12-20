@@ -6,6 +6,7 @@ final filterState = GlobalKey<_FilterState>();
 
 List<SongFilter> filters = [];
 
+// true = and, false = or
 List<bool> chaining = [];
 
 class SongFilter {

@@ -25,11 +25,11 @@ class _FilterAndSortingState extends State<FilterAndSorting> {
             onPressed: () {
               filterState.currentState?.addFilter(true);
               if (filters.isNotEmpty) {
-                List<bool Function(Song)> filterFunctions = [];
-                for (var filter in filters) {
-                  List<bool Function(Song)> propertyFilterFunctions = [];
+                Song.filtered = Song.getAll();
+                filters.forEachIndexed((index, filter) {
+                  List<bool Function(Song)> filterFunctions = [];
                   if (filter.searchString.isNotEmpty) {
-                    propertyFilterFunctions.add(filter.exclude
+                    filterFunctions.add(filter.exclude
                         ? (song) =>
                             !song.title
                                 .toLowerCase()
@@ -64,29 +64,31 @@ class _FilterAndSortingState extends State<FilterAndSorting> {
                                 .contains(filter.searchString));
                   }
                   if (filter.favorite != null) {
-                    propertyFilterFunctions.add((song) =>
+                    filterFunctions.add((song) =>
                         song.favorite ==
                         (filter.exclude ? !filter.favorite! : filter.favorite));
                   }
                   if (filter.tags.isNotEmpty) {
-                    propertyFilterFunctions.add((song) => filter.exclude
+                    filterFunctions.add((song) => filter.exclude
                         ? filter.tags.every((filterTag) =>
                             song.tags.every((tag) => filterTag.id != tag.id))
                         : filter.tags.every((filterTag) =>
                             song.tags.any((tag) => filterTag.id == tag.id)));
                   }
-                  filterFunctions.add((filterSong) => propertyFilterFunctions
-                      .reduce((value, element) => (Song song) =>
-                          value(song) && element(song))(filterSong));
-                }
-
-                var masterFilterFunction = filterFunctions.reduceIndexed(
-                    (index, value, element) => chaining[index - 1]
-                        ? (Song song) => value(song) && element(song)
-                        : (Song song) => value(song) || element(song));
-
-                Song.filtered.retainWhere((song) => masterFilterFunction(song));
-
+                  if (chaining.isEmpty || chaining[index]) {
+                    Song.filtered.retainWhere((filterSong) =>
+                        filterFunctions.reduce(
+                            (masterFunction, currentFunction) => (Song song) =>
+                                masterFunction(song) &&
+                                currentFunction(song))(filterSong));
+                  } else if (!chaining[index]) {
+                    Song.filtered.addAll(Song.getAll().where((filterSong) =>
+                        filterFunctions.reduce(
+                            (masterFunction, currentFunction) => (Song song) =>
+                                masterFunction(song) &&
+                                currentFunction(song))(filterSong)));
+                  }
+                });
                 filters = [];
                 chaining = [];
               }

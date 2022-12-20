@@ -5,6 +5,7 @@
 // See also https://docs.objectbox.io/getting-started#generate-objectbox-code
 
 // ignore_for_file: camel_case_types
+// coverage:ignore-file
 
 import 'dart:typed_data';
 
@@ -82,7 +83,7 @@ final _entities = <ModelEntity>[
             id: const IdUid(1, 2315515640667898963),
             name: 'id',
             type: 6,
-            flags: 1),
+            flags: 129),
         ModelProperty(
             id: const IdUid(2, 6196850640121334747),
             name: 'name',
@@ -110,7 +111,7 @@ final _entities = <ModelEntity>[
             id: const IdUid(1, 8922714251131724356),
             name: 'id',
             type: 6,
-            flags: 1),
+            flags: 129),
         ModelProperty(
             id: const IdUid(2, 2669306583694314511),
             name: 'name',

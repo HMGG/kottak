@@ -25,8 +25,8 @@ class _PersistanceDialogState extends State<PersistanceDialog> {
   @override
   void initState() {
     super.initState();
-    getApplicationDocumentsDirectory().then(
-      (dir) => dir.list().toList().then((list) => setState(() {
+    getDirectory().then(
+      (dir) => Directory(dir).list().toList().then((list) => setState(() {
             int index = 0;
             list
               ..retainWhere((element) => element.path.endsWith('.sheets'))
@@ -42,7 +42,8 @@ class _PersistanceDialogState extends State<PersistanceDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       child: Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor.withAlpha(128),
+        backgroundColor:
+            Theme.of(context).scaffoldBackgroundColor.withAlpha(128),
         body: Column(
           children: [
             Expanded(
@@ -170,13 +171,20 @@ class _PersistanceDialogState extends State<PersistanceDialog> {
   }
 }
 
+Future<String> getDirectory() async {
+  // return '${(await getExternalStorageDirectory())?.parent.parent.parent.parent.path}/Kottak';
+  return '${(await getExternalStorageDirectory())?.path}';
+}
+
 String intFixed(int n, int count) => n.toString().padLeft(count, "0");
 
 Future<File> exportData(String fileName) async {
   final date = DateTime.now();
-  return await File(
-    '${(await getApplicationDocumentsDirectory()).path}/$fileName-${date.year}-${intFixed(date.month, 2)}-${intFixed(date.day, 2)} ${intFixed(date.hour, 2)}:${intFixed(date.minute, 2)}.sheets',
-  ).writeAsString(jsonEncode({
+  final String fileNameWithDate =
+      '$fileName-${date.year}-${intFixed(date.month, 2)}-${intFixed(date.day, 2)} ${intFixed(date.hour, 2)}:${intFixed(date.minute, 2)}.sheets';
+
+  return File('${await getDirectory()}/$fileNameWithDate')
+      .writeAsString(jsonEncode({
     'songs': Song.getAll()
         .map((song) => {
               'id': song.id,
@@ -211,24 +219,24 @@ Future<void> importData(File file) async {
   final data = jsonDecode(await file.readAsString());
 
   final tagGroupBox = objectbox.store.box<TagGroup>();
-  (data['tagGroups'] as List<dynamic>).forEach((tagGroup) {
+  for (var tagGroup in (data['tagGroups'] as List<dynamic>)) {
     tagGroupBox.put(TagGroup(
       id: tagGroup['id'],
       name: tagGroup['name'],
       index: tagGroup['index'],
     ));
-  });
+  }
   final tagBox = objectbox.store.box<Tag>();
-  (data['tags'] as List<dynamic>).forEach((tag) {
+  for (var tag in (data['tags'] as List<dynamic>)) {
     tagBox.put(
       Tag(
         id: tag['id'],
         name: tag['name'],
       )..tagGroup.targetId = tag['tagGroup'],
     );
-  });
+  }
   final songBox = objectbox.store.box<Song>();
-  (data['songs'] as List<dynamic>).forEach((song) {
+  for (var song in (data['songs'] as List<dynamic>)) {
     songBox.put(
       Song(
         id: song['id'],
@@ -244,5 +252,5 @@ Future<void> importData(File file) async {
       )..tags.addAll((song['tags'] as List<dynamic>)
           .map((tag) => tagBox.get(tag as int)!)),
     );
-  });
+  }
 }

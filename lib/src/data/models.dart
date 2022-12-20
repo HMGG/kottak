@@ -54,6 +54,7 @@ class Song {
 
 @Entity()
 class TagGroup {
+  @Id(assignable: true)
   int id;
   String name;
   int index;
@@ -75,6 +76,7 @@ class TagGroup {
 
 @Entity()
 class Tag {
+  @Id(assignable: true)
   int id;
   String name;
 

@@ -5,7 +5,6 @@ import 'package:kottak/main.dart';
 import 'package:kottak/objectbox.g.dart';
 import 'package:kottak/src/data/models.dart';
 import 'package:kottak/src/settings/persistance_dialog.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'settings_controller.dart';
 

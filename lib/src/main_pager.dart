@@ -40,13 +40,55 @@ class _MainPagerState extends State<MainPager> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: ((context) => const FilterAndSorting())),
-            ).then((_) => songList.currentState?.refreshList(Song.filtered));
+            switch (currentPage) {
+              case 0:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Scaffold(
+                      appBar: AppBar(
+                        title: const Text('Új dal'),
+                      ),
+                      body: SongForm(
+                        song: Song(sheets: []),
+                        onSave: (song) {
+                          songList.currentState?.addItem(song);
+                        },
+                      ),
+                    ),
+                  ),
+                );
+                break;
+              case 1:
+                showDialog(
+                    context: context,
+                    builder: (context) => TagForm(
+                          Tag(),
+                          newForm: true,
+                        )).then((value) {
+                  if (value != null) {
+                    tagList.currentState?.addItem(value);
+                    objectbox.store.box<Tag>().put(value);
+                  }
+                });
+                break;
+              case 2:
+                showDialog(
+                    context: context,
+                    builder: (context) => TagGroupForm(
+                          TagGroup(),
+                          newForm: true,
+                        )).then((value) {
+                  if (value != null) {
+                    tagGroupList.currentState?.addItem(value);
+                    objectbox.store.box<TagGroup>().put(value);
+                  }
+                });
+                break;
+              default:
+            }
           },
-          icon: const Icon(Icons.filter_list),
+          icon: const Icon(Icons.add),
         ),
         actions: [
           IconButton(
@@ -119,55 +161,13 @@ class _MainPagerState extends State<MainPager> {
       ),
 
       floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.filter_list),
           onPressed: () {
-            switch (currentPage) {
-              case 0:
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Scaffold(
-                      appBar: AppBar(
-                        title: const Text('Új dal'),
-                      ),
-                      body: SongForm(
-                        song: Song(sheets: []),
-                        onSave: (song) {
-                          songList.currentState?.addItem(song);
-                        },
-                      ),
-                    ),
-                  ),
-                );
-                break;
-              case 1:
-                showDialog(
-                    context: context,
-                    builder: (context) => TagForm(
-                          Tag(),
-                          newForm: true,
-                        )).then((value) {
-                  if (value != null) {
-                    tagList.currentState?.addItem(value);
-                    objectbox.store.box<Tag>().put(value);
-                  }
-                });
-                break;
-              case 2:
-                showDialog(
-                    context: context,
-                    builder: (context) => TagGroupForm(
-                          TagGroup(),
-                          newForm: true,
-                        )).then((value) {
-                  if (value != null) {
-                    tagGroupList.currentState?.addItem(value);
-                    objectbox.store.box<TagGroup>().put(value);
-                  }
-                });
-                break;
-              default:
-            }
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: ((context) => const FilterAndSorting())),
+            ).then((_) => songList.currentState?.refreshList(Song.filtered));
           }),
     );
   }

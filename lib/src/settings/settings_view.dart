@@ -1,10 +1,12 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kottak/main.dart';
 import 'package:kottak/objectbox.g.dart';
 import 'package:kottak/src/data/models.dart';
 import 'package:kottak/src/settings/persistance_dialog.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'settings_controller.dart';
 
@@ -14,7 +16,7 @@ import 'settings_controller.dart';
 /// Widgets that listen to the SettingsController are rebuilt.
 class SettingsView extends StatefulWidget {
   const SettingsView({Key? key, required this.controller}) : super(key: key);
-  
+
   static const routeName = '/settings';
 
   final SettingsController controller;
@@ -67,10 +69,16 @@ class _SettingsViewState extends State<SettingsView> {
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: TextButton(
                 child: const Text('Import/export'),
-                onPressed: () => {
-                  showDialog(
-                      context: context,
-                      builder: (context) => PersistanceDialog())
+                onPressed: () async => {
+                  if (await Permission.manageExternalStorage
+                          .request()
+                          .isGranted ||
+                      await Permission.storage.request().isGranted)
+                    {
+                      showDialog(
+                          context: context,
+                          builder: (context) => PersistanceDialog())
+                    }
                 },
               ),
             )

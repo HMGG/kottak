@@ -172,8 +172,8 @@ class _PersistanceDialogState extends State<PersistanceDialog> {
 }
 
 Future<String> getDirectory() async {
-  // return '${(await getExternalStorageDirectory())?.parent.parent.parent.parent.path}/Kottak';
-  return '${(await getExternalStorageDirectory())?.path}';
+  return '${(await getExternalStorageDirectory())?.parent.parent.parent.parent.path}/Kottak';
+  // return '${(await getExternalStorageDirectory())?.path}';
 }
 
 String intFixed(int n, int count) => n.toString().padLeft(count, "0");

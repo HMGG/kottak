@@ -24,6 +24,7 @@ dependencies:
   multi_select_flutter: ^4.1.2
   flutter_reorderable_grid_view: ^2.0.3
   path_provider: ^2.0.10
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:

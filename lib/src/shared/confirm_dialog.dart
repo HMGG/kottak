@@ -12,7 +12,7 @@ class ConfirmDialog extends StatelessWidget {
       content: Text(subtitle),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pop(context, false),
           child: const Text('Mégse'),
         ),
         TextButton(

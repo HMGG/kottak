@@ -88,10 +88,8 @@ class MyApp extends StatelessWidget {
                   //   return SongDetailsView(id: routeSettings.arguments!);
                   // case SongItemListView.routeName:
                   case SheetPager.routeName:
-                    Song.filtered = Song.getAll();
                     return SheetPager(Song.filtered);
                   default:
-                    Song.filtered = Song.getAll();
                     return const MainPager();
                 }
               },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kottak/src/data/models.dart';
 import 'package:kottak/src/data/objectbox.dart';
 
 import 'src/app.dart';
@@ -17,6 +18,8 @@ Future<void> main() async {
   await settingsController.loadSettings();
 
   objectbox = await ObjectBox.create();
+
+  Song.filtered = Song.getAll();
 
   // Run the app and pass in the SettingsController. The app listens to the
   // SettingsController for changes, then passes it further down to the

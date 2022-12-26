@@ -5,17 +5,8 @@ import 'package:kottak/src/filter/filter.dart';
 import 'package:kottak/src/filter/sorting.dart';
 import 'package:kottak/src/utils.dart';
 
-class FilterAndSorting extends StatefulWidget {
+class FilterAndSorting extends StatelessWidget {
   const FilterAndSorting({Key? key}) : super(key: key);
-
-  @override
-  State<FilterAndSorting> createState() => _FilterAndSortingState();
-}
-
-class _FilterAndSortingState extends State<FilterAndSorting> {
-  _FilterAndSortingState() {
-    Song.filtered = Song.getAll();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,18 +66,21 @@ class _FilterAndSortingState extends State<FilterAndSorting> {
                         : filter.tags.every((filterTag) =>
                             song.tags.any((tag) => filterTag.id == tag.id)));
                   }
-                  if (chaining.isEmpty || chaining[index]) {
-                    Song.filtered.retainWhere((filterSong) =>
+                  if (chaining.isEmpty || index == 0 || chaining[index - 1]) {
+                    Song.filtered.retainWhere((keepSong) => filterFunctions
+                        .reduce((masterFunction, currentFunction) =>
+                            (Song filterSong) =>
+                                masterFunction(filterSong) &&
+                                currentFunction(filterSong))(keepSong));
+                  } else if (!chaining[index - 1]) {
+                    Song.filtered.addAll(Song.getAll().where((addSong) =>
+                        Song.filtered.none(
+                            (containSong) => addSong.id == containSong.id) &&
                         filterFunctions.reduce(
-                            (masterFunction, currentFunction) => (Song song) =>
-                                masterFunction(song) &&
-                                currentFunction(song))(filterSong));
-                  } else if (!chaining[index]) {
-                    Song.filtered.addAll(Song.getAll().where((filterSong) =>
-                        filterFunctions.reduce(
-                            (masterFunction, currentFunction) => (Song song) =>
-                                masterFunction(song) &&
-                                currentFunction(song))(filterSong)));
+                            (masterFunction, currentFunction) =>
+                                (Song filterSong) =>
+                                    masterFunction(filterSong) &&
+                                    currentFunction(filterSong))(addSong)));
                   }
                 });
                 filters = [];

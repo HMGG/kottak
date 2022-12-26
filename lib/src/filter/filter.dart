@@ -130,6 +130,7 @@ class _FilterState extends State<Filter> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: TextFormField(
+                          autofocus: true,
                           controller: searchControl,
                           decoration: const InputDecoration(
                             labelText: 'Cím/szöveg/szerző...',
